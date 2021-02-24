@@ -1,3 +1,12 @@
+# Node-Server
+This folder contains the server side code.
+to run the server , 
+run
+npm install
+npm start
+
+the next contain all the client side work~
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
