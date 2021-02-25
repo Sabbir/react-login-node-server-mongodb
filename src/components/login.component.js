@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import lo from "../assets/l.png";
 
-import{ Button, TextField, Card } from '@material-ui/core';
+import{ Button, TextField, Card, Snackbar } from '@material-ui/core';
 
 import CheckButton from "react-validation/build/button";
 
@@ -26,12 +26,14 @@ export default class Login extends Component {
       this.handleLogin = this.handleLogin.bind(this);
       this.onChangeUsername = this.onChangeUsername.bind(this);
       this.onChangePassword = this.onChangePassword.bind(this);
+      this.handleClose = this.handleClose.bind(this);
   
       this.state = {
         username: "",
         password: "",
         loading: false,
-        message: ""
+        message: "",
+        open: false
       };
     }
   
@@ -44,6 +46,14 @@ export default class Login extends Component {
     onChangePassword(e) {
       this.setState({
         password: e.target.value
+      });
+    }
+
+    handleClose(e){
+      this.setState({
+        message:"",
+        open: false
+       
       });
     }
   
@@ -73,7 +83,8 @@ export default class Login extends Component {
   
             this.setState({
               loading: false,
-              message: resMessage
+              message: resMessage,
+              open:true
             });
           }
         );
@@ -86,7 +97,7 @@ export default class Login extends Component {
   
     render() {
       return (
-        <div className="col-md-12 mt-5 p-5">
+        <div className="col-md-12 mt-5 px-5 p-5">
          <Card>
          <div className="p-3 mt-2">
           
@@ -137,12 +148,14 @@ export default class Login extends Component {
                   Login
                 </Button>
               </div>
-  
+    
               {this.state.message && (
                 <div className="form-group">
+                  <Snackbar open={this.state.open} autoHideDuration={6000} onClose={this.handleClose}>
                   <div className="alert alert-danger" role="alert">
                     {this.state.message}
                   </div>
+                  </Snackbar>
                 </div>
               )}
               <CheckButton

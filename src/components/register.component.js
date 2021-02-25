@@ -157,7 +157,7 @@ import AuthService from "../services/auth.service";
   
     render() {
       return (
-        <div className="col-md-12">
+        <div className="col-md-12 p-5 mt-3">
           <Card>
           <div className="p-3 mt-2">
           

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import{ Card, CardHeader,CardContent, Typography } from '@material-ui/core';
 
 import UserService from "../services/user.service";
 
@@ -31,10 +32,21 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div className="container">
-        <header className="jumbotron">
-          <h3>{this.state.content}</h3>
-        </header>
+      <div className="col-md-12 mt-5 px-5 p-5">
+      <Card>
+        <CardHeader
+        title="Adobe Api "
+        subheader="for Companies"
+        >
+          
+        </CardHeader>
+        <CardContent>
+          <Typography paragraph>
+          <h5>{this.state.content}</h5>
+          </Typography>
+           
+        </CardContent>
+      </Card>
       </div>
     );
   }
