@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router,Switch, Route, Link } from "react-router-dom";
 import './App.css';
+import {AppBar, Toolbar, Button, colors} from '@material-ui/core';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import AuthService from "./services/auth.service";
@@ -45,69 +46,69 @@ class App extends Component {
 
     return (
       <Router>
-      <div className="App">
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
+       <div className="App">
+        <AppBar position="fixed"  >
+          <Toolbar style={{background:'#353635'}}>
+        <div>
+            <Button href="/home" color="inherit" >              
                 Home
-              </Link>
-            </li>
+            </Button>
+
 
             {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
+              <Button color="inherit" href="/mod">
+                
                   Moderator Board
-                </Link>
-              </li>
+                
+              </Button>
             )}
 
             {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
-              </li>
+              <Button color="inherit" href="/admin">
+               
+                  Admin
+                
+              </Button>
             )}
 
             {currentUser && (
-              <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
+              <Button color="inherit" href="/user">
+                
                   User
-                </Link>
-              </li>
+                
+              </Button>
             )}
           </div>
           {currentUser ? (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
+            <div className="ml-auto">
+              <Button color="inherit" href="/profile">
+                
                   {currentUser.username}
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={this.logOut}>
+               
+              </Button>
+              <Button color="inherit" href="/login" onClick={this.logOut}> 
+                
                   LogOut
-                </a>
-              </li>
+                
+              </Button>
             </div>
           ) : (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
+            <div className="ml-auto">
+             <Button color="inherit" href="/login">
+                
                   Login
-                </Link>
-              </li>
+                
+              </Button>
 
-              <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
+              <Button color="inherit" href="/register">
+                
                   Sign Up
-                </Link>
-              </li>
+            
+              </Button>
             </div>
           )}
-        </nav>
-
+         </Toolbar>
+         </AppBar>
         <div className="container mt-3">
           <Switch>
             <Route exact path={["/", "/home"]} component={Home} />
@@ -119,7 +120,7 @@ class App extends Component {
             <Route path="/admin" component={BoardAdmin} />
           </Switch>
         </div>
-      </div>
+        </div>
       </Router>
     );
   }
