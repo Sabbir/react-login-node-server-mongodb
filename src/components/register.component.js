@@ -4,7 +4,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
 import lo from "../assets/l.png";
-import{ Button, TextField, Card, Snackbar } from '@material-ui/core';
+import{ Button, TextField, Card, Snackbar,MenuItem } from '@material-ui/core';
 
 import AuthService from "../services/auth.service";
 
@@ -18,21 +18,27 @@ import AuthService from "../services/auth.service";
   export default class Register extends Component {
     constructor(props) {
       super(props);
+      this.handleUserChange = this.handleUserChange.bind(this);
       this.handleRegister = this.handleRegister.bind(this);
       this.handleClose = this.handleClose.bind(this);
       this.onChangeUsername = this.onChangeUsername.bind(this);
       this.onChangeCompany = this.onChangeCompany.bind(this);
       this.onChangePassword = this.onChangePassword.bind(this);
       this.onChangeCPassword = this.onChangeCPassword.bind(this);
-  
+      this.onChangeFullname = this.onChangeFullname.bind(this);
       this.state = {
+        user : [{usr:"Candidate", value:"user"},{usr:"Company", value:"admin"}],
+        usertype:"",
+        fullname:"",
         username: "",
         company: "",
         password: "",
         cpassword:"",
+        disable:true,
         successful: false,
         open:false,
         message: "",
+        fError : "",
         uError:"",
         eError:"",
         pError:"",
@@ -41,7 +47,15 @@ import AuthService from "../services/auth.service";
 
       
     }
-    
+    onChangeFullname(e) {
+      let m = "";
+      this.setState({
+        fullname: e.target.value,
+        fError: m
+        
+      });
+
+    }
   
     onChangeUsername(e) {
       let m = "";
@@ -102,6 +116,19 @@ import AuthService from "../services/auth.service";
        
       });
     }
+
+    handleUserChange(e){
+      let p = "";
+      let v = e.target.value;
+      this.state.disable = true;
+      if(v=="user")
+        this.state.disable=false;
+      this.setState({
+        usertype: e.target.value,
+        usError: p
+        
+      });
+    }
   
     handleRegister(e) {
       e.preventDefault();
@@ -117,18 +144,22 @@ import AuthService from "../services/auth.service";
       if (this.checkBtn.context._errors.length === 0 && c=="") {
          
         AuthService.register(
+          this.state.fullname,
           this.state.username,
           this.state.company,
-          this.state.password
+          this.state.password,
+          this.state.usertype
         ).then(
           response => {
             this.setState({
               message: response.data.message,
               successful: true,
+              fullname:"",
               username:"",
               company:"",
               password:"",
-              cpassword:""
+              cpassword:"",
+              usertype:""
             });
           },
           error => {
@@ -138,7 +169,7 @@ import AuthService from "../services/auth.service";
                 error.response.data.message) ||
               error.message ||
               error.toString();
-  
+            console.log(resMessage);
             this.setState({
               successful: false,
               message: resMessage
@@ -174,6 +205,47 @@ import AuthService from "../services/auth.service";
             </div>
               
                 <div>
+                <div className="form-group">
+                    
+                    <TextField
+                      select
+                      label="Select a User"
+                      value={this.state.usertype}
+                      onChange={this.handleUserChange}
+                      error= {this.state.usError}
+                      helperText={"Select a user type"}
+                      name="user"
+                      variant="outlined"
+                      size="small"
+                      required
+                  
+                    >
+                      {this.state.user.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.usr}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                  </div>
+
+                  <div className="form-group">
+                    
+                    <TextField
+                      disabled={this.state.disable}
+                      type="text"
+                      label="Full name"
+                      name="fullname"
+                      value={this.state.fullname}
+                      error= {this.state.fError}
+                      helperText={this.state.fError}
+                      onChange={this.onChangeFullname}
+                      variant="outlined"
+                      size="small"
+                      
+                  
+                    />
+                  </div>
+
                   <div className="form-group">
                     
                     <TextField

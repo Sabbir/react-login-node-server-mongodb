@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import{ Card, CardHeader,CardContent, Typography } from '@material-ui/core';
 import AuthService from "../services/auth.service";
 
 export default class Profile extends Component {
@@ -12,32 +13,32 @@ export default class Profile extends Component {
 
   render() {
     const { currentUser } = this.state;
-
+    console.log(currentUser);
     return (
-      <div className="container">
-        <header className="jumbotron">
-          <h3>
-            <strong>{currentUser.username}</strong> Profile
-          </h3>
-        </header>
-        <p>
-          <strong>Token:</strong>{" "}
-          {currentUser.accessToken.substring(0, 20)} ...{" "}
-          {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
-        </p>
-        <p>
+      <div className="container col-md-12 p-5 mt-3">
+        <Card>
+        <CardHeader
+         title={currentUser.fullname}
+          />
+            
+       <CardContent> 
+      
+        <Typography paragraph variant="h6">
+          
+        
+        
           <strong>Id:</strong>{" "}
           {currentUser.id}
-        </p>
-        <p>
-          <strong>Email:</strong>{" "}
-          {currentUser.email}
-        </p>
-        <strong>Authorities:</strong>
-        <ul>
-          {currentUser.roles &&
-            currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-        </ul>
+        
+        
+          <strong>Company:</strong>{" "}
+          {currentUser.company}
+        <strong>Role:</strong> 
+          {currentUser.roles} 
+                            
+        </Typography>
+        </CardContent>
+        </Card>
       </div>
     );
   }
