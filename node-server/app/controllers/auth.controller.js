@@ -8,6 +8,7 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
     const user = new User({
+      fullname:req.body.fullname,
       username: req.body.username,
       company: req.body.company,
       password: bcrypt.hashSync(req.body.password, 8)
@@ -15,6 +16,7 @@ exports.signup = (req, res) => {
   
     user.save((err, user) => {
       if (err) {
+        console.log(err);
         res.status(500).send({ message: err });
         return;
       }
@@ -29,8 +31,9 @@ exports.signup = (req, res) => {
               res.status(500).send({ message: err });
               return;
             }
-  
+            console.log(req.body.roles);
             user.roles = roles.map(role => role._id);
+            console.log(user.roles);
             user.save(err => {
               if (err) {
                 res.status(500).send({ message: err });
@@ -55,7 +58,7 @@ exports.signup = (req, res) => {
               return;
             }
   
-            res.send({ message: "User was registered successfully!" });
+            res.send({ message: "User registered successfully!" });
           });
         });
       }
@@ -94,12 +97,14 @@ exports.signup = (req, res) => {
         });
   
         var authorities = [];
-  
+        console.log(user.roles.length);
         for (let i = 0; i < user.roles.length; i++) {
           authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
+          console.log(user.roles[i].name);
         }
         res.status(200).send({
           id: user._id,
+          fullname:user.fullname,
           username: user.username,
           company: user.company,
           roles: authorities,
