@@ -27,14 +27,13 @@ export default class Profile extends Component {
           
         
         
-          <strong>Id:</strong>{" "}
+          <h4>Id:</h4>{" "}
           {currentUser.id}
         
         
-          <strong>Company:</strong>{" "}
+          <h4>Company:</h4>{" "}
           {currentUser.company}
-        <strong>Role:</strong> 
-          {currentUser.roles} 
+        
                             
         </Typography>
         </CardContent>
