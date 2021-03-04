@@ -115,6 +115,21 @@ import AuthService from "../services/auth.service";
         open: false
        
       });
+      AuthService.login(this.state.username, this.state.password).then(
+        () => {
+          this.props.history.push("/profile");
+          window.location.reload();
+        },
+        error => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+                
     }
 
     handleUserChange(e){
@@ -151,15 +166,11 @@ import AuthService from "../services/auth.service";
           this.state.usertype
         ).then(
           response => {
+            
             this.setState({
               message: response.data.message,
-              successful: true,
-              fullname:"",
-              username:"",
-              company:"",
-              password:"",
-              cpassword:"",
-              usertype:""
+              successful: true
+              
             });
           },
           error => {

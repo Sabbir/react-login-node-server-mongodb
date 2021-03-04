@@ -13,12 +13,12 @@ export default class Profile extends Component {
 
   render() {
     const { currentUser } = this.state;
-    console.log(currentUser);
+    
     return (
       <div className="container col-md-12 p-5 mt-3">
         <Card>
         <CardHeader
-         title={currentUser.fullname}
+         title={currentUser.username}
           />
             
        <CardContent> 
@@ -27,14 +27,13 @@ export default class Profile extends Component {
           
         
         
-          <strong>Id:</strong>{" "}
+          <h4>Id:</h4>{" "}
           {currentUser.id}
         
         
-          <strong>Company:</strong>{" "}
+          <h4>Company:</h4>{" "}
           {currentUser.company}
-        <strong>Role:</strong> 
-          {currentUser.roles} 
+        
                             
         </Typography>
         </CardContent>
