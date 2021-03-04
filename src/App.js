@@ -71,7 +71,7 @@ class App extends Component {
               </Button>
             )}
 
-            {currentUser && (
+            {currentUser && !showAdminBoard && (
               <Button color="inherit" href="/user">
                 
                   User
