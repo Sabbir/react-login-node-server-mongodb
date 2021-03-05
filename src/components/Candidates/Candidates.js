@@ -2,17 +2,28 @@ import React    from "react";
 import template from "./Candidates.jsx";
 import AuthService from "../../services/auth.service";
 import UserService from "../../services/user.service";
+import UploadFilesService from "../../services/upload-file.service";
 
 class Candidates extends React.Component {
   constructor(props) {
     super(props);
+    this.onChangeHandler = this.onChangeHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.state = {
     content: "",
     users:AuthService.getCurrentUser(),
-    sh:false
+    sh:false,
+    selectedFiles: undefined,
+      currentFile: undefined,
+      progress: 0,
+      message: "",
+      isError: false,
+      fileInfos: [],
   };
+ }
+ onChangeHandler(e){
+   console.log(e.target.files[0]);
  }
  handleChange(e){
   

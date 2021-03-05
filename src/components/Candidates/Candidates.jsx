@@ -22,6 +22,7 @@ function template() {
        
       ))}
       <br />
+      <input type="file" name="file" onChange={this.onChangeHandler}/>
       <Link  component="button"
         variant="body2"
         onClick={this.handleClick}
