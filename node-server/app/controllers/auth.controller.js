@@ -97,11 +97,45 @@ exports.signup = (req, res) => {
         });
   
         var authorities = [];
-        console.log(user.roles.length);
+        
         for (let i = 0; i < user.roles.length; i++) {
           authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
-          console.log(user.roles[i].name);
+          
+          console.log(user.roles[i]._id);
         }
+        var dat=[];
+        if(user.roles[user.roles.length-1].name=="admin"){
+           User.find({
+            company:user.company,
+            roles:{$ne:user.roles}
+            
+           }
+          )
+          .exec((err,data)=>{
+          if(!data){
+            dat.push("No candidates assign to this company" );
+            dat.push("0");
+          } 
+          else{
+           for (let i = 0; i < data.length; i++){
+             
+             if(data[i].roles[0]!=user.roles[0]._id)
+                dat.push(data[i]);
+             }
+           console.log(dat);
+           }
+           res.status(200).send({
+            id: user._id,
+            fullname:user.fullname,
+            username: user.username,
+            company: user.company,
+            roles: authorities,
+            data: dat,
+            accessToken: token
+            });
+          }); 
+        }
+        else{
         res.status(200).send({
           id: user._id,
           fullname:user.fullname,
@@ -110,5 +144,6 @@ exports.signup = (req, res) => {
           roles: authorities,
           accessToken: token
         });
+      }
       });
 };
