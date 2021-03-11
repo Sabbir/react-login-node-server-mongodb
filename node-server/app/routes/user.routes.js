@@ -27,7 +27,7 @@ module.exports = function(app) {
     controller.adminBoard
   );
 
-  app.get(
+  app.post(
     "/api/contract",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.initiateContract

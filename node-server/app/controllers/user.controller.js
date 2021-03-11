@@ -15,8 +15,9 @@ exports.moderatorBoard = (req, res) => {
 };
 
 exports.initiateContract = (req, res) => {
+    console.log(res);
     const PDFToolsSdk = require('@adobe/documentservices-pdftools-node-sdk');
-
+    const fs = require('fs');
     try {
         // Initial setup, create credentials instance.
         const credentials =  PDFToolsSdk.Credentials
@@ -34,20 +35,45 @@ exports.initiateContract = (req, res) => {
         createPdfOperation.setInput(input);
 
         createPdfOperation.execute(executionContext)
-       .then(result => result.saveAsFile('output/createPDFFromDOCX.pdf'))
+       .then(result => {
+           
+        
+            if (fs.existsSync('output/createPDFFromDOCX.pdf')) {
+              fs.unlink('output/createPDFFromDOCX.pdf',(err) => {
+                if (err) {
+                    console.log("failed to delete file:"+err);
+                } else {
+                    console.log('successfully deleted old file ');                                
+                }
+                });
+            }
+          
+           result.saveAsFile('output/createPDFFromDOCX.pdf')
+           .then(r => {
+            res.status(200).send(r);
+           })
+           .catch(err =>{
+            console.log(err);
+            res.status(500).send(err.Error);
+
+           });
+           console.log(result);
+           
+           
+        })
        .catch(err => {
            if(err instanceof PDFToolsSdk.Error.ServiceApiError
                || err instanceof PDFToolsSdk.Error.ServiceUsageError) {
                console.log('Exception encountered while executing operation', err);
+               res.status(400).send(err);
            } else {
                console.log('Exception encountered while executing operation', err);
+               res.status(400).send(err);
            }
        });
-
-    res.status(200).send("Contract");
     }
     catch (err) {
-        res.status(200).send(err);
+        res.status(400).send(err);
     }
 
 };
